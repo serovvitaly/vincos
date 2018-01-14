@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+Host: http://vincos.ru
+sitemap: http://vincos.ru/sitemap.xml
