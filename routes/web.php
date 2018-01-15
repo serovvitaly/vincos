@@ -36,9 +36,11 @@ Route::get('{url}', function ($url) use ($router) {
     $url = '/' .$url;
     $page = DB::table('pages')->whereIn('url', [$url, $url . '/'])->first();
     if (!$page) {
-        abort(404);
+        $content = 'Содержимое скоро появится';
+    } else {
+        $content = $page->content;
     }
-    return view('default.page', ['content' => $page->content]);
+    return view('default.page', ['content' => $content]);
 })->where(['url' => '.+']);
 
 Route::get('/{postUrl}', function ($postUrl) use ($router) {
