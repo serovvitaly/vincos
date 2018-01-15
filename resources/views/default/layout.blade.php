@@ -13,6 +13,7 @@
 
 </head>
 <body>
+@include('metrika')
 <div id="wrap-wrapper">
     <div id="wrapper">
         <div id="container" class="container">
@@ -51,5 +52,4 @@
         </div>
     </div>
 </div>
-
 </body></html>
