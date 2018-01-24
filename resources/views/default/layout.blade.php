@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>@yield('title')</title>
     <meta name="robots" content="index,follow,noodp,noydir"/>
-    <meta name="description" content="@yield('description')"/>
+    <meta name="title" content="@yield('metaTitle')"/>
+    <meta name="description" content="@yield('metaDescription')"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/default/css/style.css"/>

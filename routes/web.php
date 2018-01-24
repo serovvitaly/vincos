@@ -40,7 +40,17 @@ Route::get('{url}', function ($url) use ($router) {
     } else {
         $content = $page->content;
     }
-    return view('default.page', ['content' => $content]);
+
+    $title = $page->title;
+    $metaTitle = !empty($page->meta_title) ? $page->meta_title : $page->title;
+    $metaDescription = $page->meta_description;
+
+    return view('default.page', [
+        'content' => $content,
+        'title' => $title,
+        'metaTitle' => $metaTitle,
+        'metaDescription' => $metaDescription,
+    ]);
 })->where(['url' => '.+']);
 
 Route::get('/{postUrl}', function ($postUrl) use ($router) {

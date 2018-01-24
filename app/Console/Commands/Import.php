@@ -38,7 +38,7 @@ class Import extends Command
      */
     public function handle()
     {
-        $json = file_get_contents('/var/www/vincos.ru_NEW/pages.json');
+        $json = file_get_contents(base_path() . '/pages.json');
         $json = json_decode($json);
         $index = 120;
         $exts = ['html', ''];
@@ -70,15 +70,36 @@ class Import extends Command
                 $content = $contentElement->html();
             }
 
+            $title = $crawler->filter('head > title');
+            $title = $title->count() ? $title->text() : '';
+
+            $metaTitle = $crawler->filterXPath('//head/meta[@name="title"]');
+            $metaTitle = $metaTitle->count() ? $metaTitle->attr('content') : '';
+
+            $metaDescription = $crawler->filterXPath('//head/meta[@name="description"]');
+            $metaDescription = $metaDescription->count() ? $metaDescription->attr('content') : '';
+
             $url = trim($row[0], '"');
             $url = parse_url($url, PHP_URL_PATH);
 
             $page = \DB::table('pages')->whereIn('url', [$url, $url . '/'])->first();
 
             if ($page) {
-                \DB::table('pages')->where('id', $page->id)->update(['content' => $content]);
+                \DB::table('pages')->where('id', $page->id)->update([
+                    //'content' => $content,
+                    'title' => $title,
+                    'meta_title' => $metaTitle,
+                    'meta_description' => $metaDescription,
+                ]);
             } else {
-                \DB::table('pages')->insert(['id' => $index, 'url' => $url, 'content' => $content]);
+                \DB::table('pages')->insert([
+                    'id' => $index,
+                    'url' => $url,
+                    'content' => $content,
+                    'title' => $title,
+                    'meta_title' => $metaTitle,
+                    'meta_description' => $metaDescription,
+                ]);
                 $index++;
             }
         }
