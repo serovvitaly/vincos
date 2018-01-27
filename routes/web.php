@@ -37,13 +37,15 @@ Route::get('{url}', function ($url) use ($router) {
     $page = DB::table('pages')->whereIn('url', [$url, $url . '/'])->first();
     if (!$page) {
         $content = 'Содержимое скоро появится';
+        $title = '';
+        $metaTitle = '';
+        $metaDescription = '';
     } else {
         $content = $page->content;
+        $title = $page->title;
+        $metaTitle = !empty($page->meta_title) ? $page->meta_title : $page->title;
+        $metaDescription = $page->meta_description;
     }
-
-    $title = $page->title;
-    $metaTitle = !empty($page->meta_title) ? $page->meta_title : $page->title;
-    $metaDescription = $page->meta_description;
 
     return view('default.page', [
         'content' => $content,
